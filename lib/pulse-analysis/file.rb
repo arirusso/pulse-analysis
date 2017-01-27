@@ -1,4 +1,4 @@
-module PulseAnalyzer
+module PulseAnalysis
 
   # An audio file
   class File

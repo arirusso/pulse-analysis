@@ -10,10 +10,11 @@ require "forwardable"
 require "ruby-audio"
 
 # classes
-require "pulse-analyzer/file"
-require "pulse-analyzer/sound"
+require "pulse-analysis/analysis"
+require "pulse-analysis/file"
+require "pulse-analysis/sound"
 
-module PulseAnalyzer
+module PulseAnalysis
 
   VERSION = "0.0.1"
 

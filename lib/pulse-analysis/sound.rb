@@ -1,4 +1,4 @@
-module PulseAnalyzer
+module PulseAnalysis
 
   class Sound
 
@@ -13,11 +13,11 @@ module PulseAnalyzer
     # @option options [IO] logger
     # @return [Sound]
     def self.load(file_or_path, options = {})
-      file = PulseAnalyzer::File.new(file_or_path)
+      file = PulseAnalysis::File.new(file_or_path)
       new(file, options)
     end
 
-    # @param [PulseAnalyzer::File] audio_file
+    # @param [PulseAnalysis::File] audio_file
     # @param [Hash] options
     # @option options [IO] logger
     def initialize(audio_file, options = {})

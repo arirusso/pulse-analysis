@@ -1,4 +1,4 @@
-# Pulse Analyzer
+# Pulse Analysis
 
 Inspired by the [Inner Clock Systems Litmus Test](http://innerclocksystems.com/New%20ICS%20Litmus.html)
 
@@ -8,11 +8,11 @@ The package libsndfile ([link](https://github.com/erikd/libsndfile)) must be ins
 
 Install the gem itself using
 
-    gem install pulse-analyzer
+    gem install pulse-analysis
 
 Or if you're using Bundler, add this to your Gemfile
 
-    gem "pulse-analyzer"
+    gem "pulse-analysis"
 
 ## License
 

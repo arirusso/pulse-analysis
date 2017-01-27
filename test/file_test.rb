@@ -1,6 +1,6 @@
 require "helper"
 
-class PulseAnalyzer::FileTest < Minitest::Test
+class PulseAnalysis::FileTest < Minitest::Test
 
   context "AudioFile" do
 
@@ -10,7 +10,7 @@ class PulseAnalyzer::FileTest < Minitest::Test
 
         setup do
           @path = "test/media/1-mono-44100.wav"
-          @file = PulseAnalyzer::File.new(@path)
+          @file = PulseAnalysis::File.new(@path)
         end
 
         should "populate" do
@@ -35,7 +35,7 @@ class PulseAnalyzer::FileTest < Minitest::Test
         setup do
           @path = "test/media/1-stereo-44100.wav"
           @file_obj = File.new(@path)
-          @file = PulseAnalyzer::File.new(@file_obj)
+          @file = PulseAnalysis::File.new(@file_obj)
         end
 
         should "populate" do
@@ -63,7 +63,7 @@ class PulseAnalyzer::FileTest < Minitest::Test
 
         setup do
           @path = "test/media/1-mono-44100.wav"
-          @file = PulseAnalyzer::File.new(@path)
+          @file = PulseAnalysis::File.new(@path)
           @data = @file.read
         end
 
@@ -82,7 +82,7 @@ class PulseAnalyzer::FileTest < Minitest::Test
 
         setup do
           @path = "test/media/1-stereo-44100.wav"
-          @file = PulseAnalyzer::File.new(@path)
+          @file = PulseAnalysis::File.new(@path)
           @data = @file.read
         end
 

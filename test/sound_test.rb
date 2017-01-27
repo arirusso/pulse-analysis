@@ -1,6 +1,6 @@
 require "helper"
 
-class PulseAnalyzer::SoundTest < Minitest::Test
+class PulseAnalysis::SoundTest < Minitest::Test
 
   context "Sound" do
 
@@ -10,8 +10,8 @@ class PulseAnalyzer::SoundTest < Minitest::Test
 
         setup do
           @path = "test/media/1-mono-44100.wav"
-          @file = PulseAnalyzer::File.new(@path)
-          @sound = PulseAnalyzer::Sound.new(@file)
+          @file = PulseAnalysis::File.new(@path)
+          @sound = PulseAnalysis::Sound.new(@file)
           @data = @sound.data
           @size = @sound.size
         end
@@ -34,8 +34,8 @@ class PulseAnalyzer::SoundTest < Minitest::Test
 
         setup do
           @path = "test/media/1-stereo-44100.wav"
-          @file = PulseAnalyzer::File.new(@path)
-          @sound = PulseAnalyzer::Sound.new(@file)
+          @file = PulseAnalysis::File.new(@path)
+          @sound = PulseAnalysis::Sound.new(@file)
           @data = @sound.data
           @size = @sound.size
         end
@@ -61,7 +61,7 @@ class PulseAnalyzer::SoundTest < Minitest::Test
       setup do
         @logger = $>
         @path = "test/media/1-mono-44100.wav"
-        @sound = PulseAnalyzer::Sound.load(@path)
+        @sound = PulseAnalysis::Sound.load(@path)
         @logger.expects(:puts).times(4)
       end
 
