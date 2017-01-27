@@ -9,7 +9,7 @@ class PulseAnalysis::AnalysisTest < Minitest::Test
       context "mono" do
 
         setup do
-          @path = "test/media/1-mono-44100.wav"
+          @path = "test/media/live_120bpm_48k.wav"
           @analysis = PulseAnalysis::Analysis.new(@path)
           @analysis.run
         end
