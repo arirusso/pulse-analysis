@@ -14,6 +14,20 @@ Or if you're using Bundler, add this to your Gemfile
 
     gem "pulse-analysis"
 
+## Usage
+
+#### Command Line
+
+`pulse-analysis /path/to/a/sound/file.wav`
+
+#### In Ruby
+
+```ruby
+require "pulse-analysis"
+
+PulseAnalysis.new("/path/to/a/sound/file.wav")
+```
+
 ## License
 
 Licensed under Apache 2.0, See the file LICENSE
