@@ -18,4 +18,8 @@ module PulseAnalysis
 
   VERSION = "0.0.1"
 
+  def self.new(file_or_path, options = {})
+    Analysis.new(file_or_path, options)
+  end
+
 end
