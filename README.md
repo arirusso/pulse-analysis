@@ -1,5 +1,7 @@
 # Pulse Analysis
 
+Using an audio file, measure pulses for timing deviation
+
 Inspired by the [Inner Clock Systems Litmus Test](http://innerclocksystems.com/New%20ICS%20Litmus.html)
 
 ## Installation
@@ -16,6 +18,12 @@ Or if you're using Bundler, add this to your Gemfile
 
 ## Usage
 
+Audio input files must be at least 48k sample rate
+
+It's recommended that an audio file around 10 minutes long with a pulse rate of 120bpm is used
+
+A sample audio file can be found [here]
+
 #### Command Line
 
 `pulse-analysis /path/to/a/sound/file.wav`
@@ -25,7 +33,10 @@ Or if you're using Bundler, add this to your Gemfile
 ```ruby
 require "pulse-analysis"
 
-PulseAnalysis.new("/path/to/a/sound/file.wav")
+PulseAnalysis.report("/path/to/a/sound/file.wav")
+
+=>
+
 ```
 
 ## License

@@ -4,25 +4,33 @@ class PulseAnalysis::AnalysisTest < Minitest::Test
 
   context "Sound" do
 
-    context "#run" do
+    context "#initialize" do
 
       context "mono" do
-
-        setup do
-          @path = "test/media/live_120bpm_48k.wav"
-          @analysis = PulseAnalysis::Analysis.new(@path)
-          @analysis.run
-        end
-
-        should "populate data" do
-          refute_nil @analysis
-        end
-
       end
 
       context "stereo" do
 
+        should "warn" do
+        end
 
+        should "convert to mono" do
+        end
+
+      end
+
+    end
+
+    context "#run" do
+
+      setup do
+        @path = "test/media/roland_r5_audioout_120bpm_88k.wav"
+        @analysis = PulseAnalysis::Analysis.new(@path)
+        @report = @analysis.run
+      end
+
+      should "populate report" do
+        refute_nil @report
       end
 
     end
