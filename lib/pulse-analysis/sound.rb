@@ -30,7 +30,7 @@ module PulseAnalysis
     # @param [IO] logger
     # @return [Boolean]
     def report(logger)
-      logger.puts("Sound report for #{@audio_file.path}")
+      logger.puts("Sound report for #{@audio_file.file}")
       logger.puts("  Sample rate: #{@audio_file.sample_rate}")
       logger.puts("  Channels: #{@audio_file.num_channels}")
       logger.puts("  File size: #{@audio_file.size}")
