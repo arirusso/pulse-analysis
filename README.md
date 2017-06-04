@@ -2,7 +2,7 @@
 
 Using an audio file, measure pulses for timing deviation
 
-This would generally used to measure the timing accuracy of drum machines, sequencers and other music electronics.  Inspired by the [Inner Clock Systems Litmus Test](http://innerclocksystems.com/New%20ICS%20Litmus.html)
+This would generally be used to measure the timing accuracy of drum machines, sequencers and other music electronics.  Inspired by the [Inner Clock Systems Litmus Test](http://innerclocksystems.com/New%20ICS%20Litmus.html)
 
 ## Installation
 
