@@ -2,7 +2,7 @@
 
 Using an audio file, measure pulses for timing deviation
 
-Inspired by the [Inner Clock Systems Litmus Test](http://innerclocksystems.com/New%20ICS%20Litmus.html)
+Generally used to measure the timing accuracy of drum machines, sequencers and other music electronics.  Inspired by the [Inner Clock Systems Litmus Test](http://innerclocksystems.com/New%20ICS%20Litmus.html)
 
 ## Installation
 
@@ -22,7 +22,9 @@ Audio input files must be at least 48k sample rate
 
 It's recommended that an audio file around 10 minutes long with a pulse rate of 120bpm is used
 
-A sample audio file can be found [here]
+Mono audio files are recommended.  If a stereo file is used, only the left channel will be analyzed.
+
+Sample audio files can be found [here]
 
 #### Command Line
 
