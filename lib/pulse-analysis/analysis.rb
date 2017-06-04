@@ -2,34 +2,20 @@ module PulseAnalysis
 
   class Analysis
 
-    attr_reader :data
+    DEFAULT_THRESHOLD = {
+      amplitude: 0.7,
+      length: 200
+    }.freeze
+
+    attr_reader :data, :periods, :sound
 
     def initialize(file_or_path, options = {})
+      @threshold = {
+        amplitude: DEFAULT_THRESHOLD[:amplitude],
+        length: DEFAULT_THRESHOLD[:length]
+      }
       @sound = Sound.load(file_or_path)
       validate_sound
-    end
-
-    def amplitude_threshold
-      0.7
-    end
-
-    def length_threshold
-      200
-    end
-
-    def report
-      run if @periods.nil?
-      if @report.nil?
-        @report = {}
-        # periods.reject! { |length| length < length_threshold }
-        # get differences
-        # Audio file sample rate: 48000
-        # Audio file length: 10m10s
-        # Pulse rate: n
-        # Total pulses: n
-        # Max deviation: n samples (n ms)
-      end
-      @report
     end
 
     def run
@@ -44,7 +30,7 @@ module PulseAnalysis
       periods = []
       period_index = 0
       @data.each do |frame|
-        if frame.abs < amplitude_threshold
+        if frame.abs < @threshold[:amplitude]
           is_recording = true
           periods[period_index] ||= 0
           periods[period_index] += 1
@@ -55,6 +41,12 @@ module PulseAnalysis
           end
         end
       end
+      # remove the first and last periods in case recording wasn't started/
+      # stopped in sync
+      periods.shift
+      periods.pop
+      # remove periods that are below length threshold
+      periods.reject! { |length| length < @threshold[:length] }
       @periods = periods
     end
 
@@ -63,12 +55,13 @@ module PulseAnalysis
     end
 
     def convert_to_mono
+      # Use left channel
       @sound.data = @sound.data.map(&:first)
     end
 
     def validate_sound
       if @sound.num_channels > 1
-        warn "Input file is not mono, using first channel"
+        warn "Input file is not mono, using first/left channel"
         convert_to_mono
       end
       if @sound.sample_rate < 48000
