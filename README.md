@@ -18,9 +18,7 @@ Or if you're using Bundler, add this to your Gemfile
 
 ## Usage
 
-Audio input files must be at least 48k sample rate
-
-It's recommended that an audio file around 10 minutes long with a pulse rate of 120bpm is used
+In keeping with conventions established by the Litmus Test, audio input files must be at least 48k sample rate.  It's recommended that an audio file around 10 minutes long with a pulse rate of 120bpm is used.
 
 Mono audio files are recommended.  If a stereo file is used, only the left channel will be analyzed.
 
@@ -43,7 +41,7 @@ PulseAnalysis.report("/path/to/a/sound/file.wav")
 
 ## Disclaimer
 
-Please use the results generated with this program responsibly.  With the subjective nature of the data at hand, this program is not meant to reflect poorly on any musicians, companies, hobbyists or anyone whose product has measurable timing.  After all, variation in timing may be desirable in some musical contexts. Additionally, the settings of a particular device and recording environment can cause variation in timing accuracy.  
+Please use the results generated with this program responsibly.  With the subjective nature of the data at hand, this program is not meant to reflect poorly on any musicians, companies, hobbyists or anyone whose product has measurable timing.  After all, variation in timing may be desirable in some musical contexts. Additionally, the settings of a particular device and recording environment can cause variation in timing accuracy so it's recommended that results be independently verified.  
 
 ## License
 
