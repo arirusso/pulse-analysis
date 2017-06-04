@@ -9,18 +9,25 @@ module PulseAnalysis
 
     attr_reader :data, :periods, :sound
 
+    # @param [::File, String] file_or_path File or path to audio file to run analysis on
+    # @param [Hash] options
+    # @option options [Float] :amplitude_threshold Pulses above this amplitude will be analyzed
+    # @option options [Integer] :length_threshold Pulse periods longer than this value will be analyzed
     def initialize(file_or_path, options = {})
       @threshold = {
-        amplitude: DEFAULT_THRESHOLD[:amplitude],
-        length: DEFAULT_THRESHOLD[:length]
+        amplitude: options[:amplitude_threshold] || DEFAULT_THRESHOLD[:amplitude],
+        length: options[:length_threshold] || DEFAULT_THRESHOLD[:length]
       }
       @sound = Sound.load(file_or_path)
       validate_sound
     end
 
+    # Run the analysis
+    # @return [Boolean]
     def run
       @data = @sound.data
       populate_periods
+      true
     end
 
     # Usable length of the audio file in seconds
@@ -79,31 +86,35 @@ module PulseAnalysis
     # Largest sequential abberation between pulses
     # @return [Integer]
     def largest_abberation
-      abberations.max
+      @largest_abberation ||= abberations.max
     end
 
     # Average sequential abberation between pulses
     # @return [Float]
     def average_abberation
-      abberations.inject(&:+).to_f / abberations.count
+      @average_abberation ||= abberations.inject(&:+).to_f / abberations.count
     end
 
+    # Non-zero pulse timing abberations derived from the periods
+    # @return [Array<Integer>]
     def abberations
-      if @abberations.nil?
-        i = 0
-        abberations = @periods.map do |period|
-          last_period = i >= 0 ? @periods[i - 1] : 0
-          abberation = period - last_period
-          i += 1
-          abberation
-        end
-        abberations.reject!(&:zero?)
-        @abberations = abberations.map(&:abs)
-      end
+      populate_abberations if @abberations.nil?
       @abberations
     end
 
     private
+
+    def populate_abberations
+      i = 0
+      abberations = @periods.map do |period|
+        last_period = i >= 0 ? @periods[i - 1] : 0
+        abberation = period - last_period
+        i += 1
+        abberation
+      end
+      abberations.reject!(&:zero?)
+      @abberations = abberations.map(&:abs)
+    end
 
     def populate_periods
       is_recording = false
@@ -126,7 +137,7 @@ module PulseAnalysis
       periods.shift
       periods.pop
       # remove periods that are below length threshold
-      periods.reject! { |length| length < @threshold[:length] }
+      periods.reject! { |period| period < @threshold[:length] }
       @periods = periods
     end
 
@@ -134,11 +145,14 @@ module PulseAnalysis
       puts(message)
     end
 
+    # Logic for converting a stereo sound to mono
     def convert_to_mono
       # Use left channel
       @sound.data = @sound.data.map(&:first)
     end
 
+    # Validate that the sound is analyzable
+    # @return [Boolean]
     def validate_sound
       if @sound.num_channels > 1
         warn "Input file is not mono, using first/left channel"
@@ -147,6 +161,7 @@ module PulseAnalysis
       if @sound.sample_rate < 48000
         raise "Sample rate must be at least 48000"
       end
+      true
     end
 
   end
