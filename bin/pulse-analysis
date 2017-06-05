@@ -20,6 +20,14 @@ parser = OptionParser.new do |opts|
   opts.separator ""
   opts.separator "Specific options:"
 
+  opts.on("-aAMPLITUDE", "--amplitude_threshold=AMPLITUDE", "Amplitude Threshold") do |amplitude|
+    options[:amplitude_threshold] = amplitude
+  end
+
+  opts.on("-lLENGTH", "--length_threshold=LENGTH", "Length Threshold") do |length|
+    options[:length_threshold] = length
+  end
+
   opts.on("-q", "--quiet", "Quiet") do |quiet|
     options[:quiet] = quiet
   end
@@ -47,7 +55,7 @@ unless options[:output_file].nil?
 end
 
 if options[:quiet]
-  analysis = PulseAnalysis::Analysis.new(ARGV[0])
+  analysis = PulseAnalysis::Analysis.new(ARGV[0], options)
   analysis.run
   analysis.validate
   report = PulseAnalysis::Report.new(analysis)
@@ -57,7 +65,7 @@ else
   report = nil
 
   spinner.update(title: "Reading file #{ARGV[0]}")
-  spinner.run("Done!") { analysis = PulseAnalysis::Analysis.new(ARGV[0]) }
+  spinner.run("Done!") { analysis = PulseAnalysis::Analysis.new(ARGV[0], options) }
 
   spinner.update(title: "Running analysis")
   spinner.run("Done!") do

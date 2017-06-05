@@ -7,7 +7,12 @@ module PulseAnalysis
     attr_reader :data, :periods, :sound
 
     # @param [::File, String] file_or_path File or path to audio file to run analysis on
-    def initialize(file_or_path)
+    # @param [Hash] options
+    # @option options [Float] :amplitude_threshold Pulses above this amplitude will be analyzed
+    # @option options [Integer] :length_threshold Pulse periods longer than this value will be analyzed
+    def initialize(file_or_path, options = {})
+      @amplitude_threshold = options[:amplitude_threshold]
+      @length_threshold = options[:length_threshold]
       populate_sound(file_or_path)
       @data = @sound.data
     end
@@ -122,7 +127,7 @@ module PulseAnalysis
     end
 
     def amplitude_threshold
-      @amplitude_threshold ||= @data.max * 0.8
+      @amplitude_threshold ||= @data.max * 0.85
     end
 
     def length_threshold(raw_periods)
@@ -134,19 +139,23 @@ module PulseAnalysis
     end
 
     def populate_periods
-      is_recording = false
+      is_low = false
       periods = []
       period_index = 0
       @data.each do |frame|
-        if frame.abs < amplitude_threshold
-          is_recording = true
+        if frame.abs < amplitude_threshold # if pulse is low
+          is_low = true
           periods[period_index] ||= 0
+          # count period length
           periods[period_index] += 1
         else
-          if is_recording
-            is_recording = false
+          # pulse is high
+          if is_low # last frame, the pulse was low
+            is_low = false
+            # move to next period
             period_index += 1
           end
+          # if the pulse was already high, don't do anything
         end
       end
       # remove the first and last periods in case recording wasn't started/

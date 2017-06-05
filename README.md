@@ -36,7 +36,7 @@ Mono audio files are recommended.  If a stereo file is used, only the left chann
 
 #### Audio content
 
-It's recommended that the audio file have a pulse rate of *16th notes* at *120 BPM* and be around *10 minutes long*.  The audio should be normalized as close to 0db as possible.
+It's recommended that the audio file have a pulse rate of *16th notes* at *120 BPM* and be around *10 minutes long*. Using a single sound (eg snare drum) striking 16th notes will produce the best results.  The audio should be normalized as close to 0db as possible. 
 
 If it's not clear what's meant by this, example audio files are included in the repository and can be found [here](https://github.com/arirusso/pulse-analysis/tree/master/spec/media)
 
