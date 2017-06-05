@@ -38,7 +38,7 @@ Mono audio files are recommended.  If a stereo file is used, only the left chann
 
 It's recommended that the audio file have a pulse rate of *16th notes* at *120 BPM* and be around *10 minutes long*.
 
-If it's not clear what's meant by this, sample audio files are included in the repository and can be found [here](https://github.com/arirusso/pulse-analysis/tree/master/spec/media)
+If it's not clear what's meant by this, example audio files are included in the repository and can be found [here](https://github.com/arirusso/pulse-analysis/tree/master/spec/media)
 
 ### Command Line
 
