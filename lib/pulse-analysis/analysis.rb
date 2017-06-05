@@ -20,7 +20,6 @@ module PulseAnalysis
     # Run the analysis
     # @return [Boolean]
     def run
-      normalize_audio
       populate_periods
       true
     end
@@ -106,27 +105,9 @@ module PulseAnalysis
     private
 
     def populate_data
-      @data = @sound.data
-      convert_to_mono if convert_to_mono?
+      @data = AudioData.new(@sound)
+      @data.prepare
       @data
-    end
-
-    def convert_to_mono?
-      @sound.num_channels > 1
-    end
-
-    # Logic for converting a stereo sound to mono
-    def convert_to_mono
-      # Use left channel
-      @data = @data.map(&:first)
-    end
-
-    def normalize_audio
-      headroom = 1.0 - @data.max
-      if headroom > 0.0
-        factor = 1.0 / @data.max
-        @data.map! { |frame| frame * factor }
-      end
     end
 
     # Load the sound file and validate the data

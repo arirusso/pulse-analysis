@@ -12,6 +12,7 @@ require "ruby-audio"
 
 # classes
 require "pulse-analysis/analysis"
+require "pulse-analysis/audio_data"
 require "pulse-analysis/file"
 require "pulse-analysis/report"
 require "pulse-analysis/sound"
