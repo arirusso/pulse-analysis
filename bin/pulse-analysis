@@ -53,7 +53,7 @@ spinner.run("Done!") { report = PulseAnalysis::Report.new(analysis) }
 
 value_colspan = report.items.map { |item| item[:value] }.map(&:count).max
 
-table = Terminal::Table.new(title: "Report", headings: ["Item", { value: "Value", colspan: value_colspan }]) do |table|
+table = Terminal::Table.new(title: "Pulse Analysis", headings: ["Item", { value: "Value", colspan: value_colspan }]) do |table|
 
   report.items.each do |item|
 
