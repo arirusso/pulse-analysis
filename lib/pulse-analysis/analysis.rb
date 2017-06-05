@@ -6,20 +6,21 @@ module PulseAnalysis
 
     attr_reader :abberations, :data, :periods, :sound
 
-    # @param [::File, String] file_or_path File or path to audio file to run analysis on
+    # @param [PulseAnalysis::Sound] sound Sound to analyze
     # @param [Hash] options
     # @option options [Float] :amplitude_threshold Pulses above this amplitude will be analyzed
     # @option options [Integer] :length_threshold Pulse periods longer than this value will be analyzed
-    def initialize(file_or_path, options = {})
+    def initialize(sound, options = {})
       @amplitude_threshold = options[:amplitude_threshold]
       @length_threshold = options[:length_threshold]
-      populate_sound(file_or_path)
-      populate_data
+      populate_sound(sound)
+      @data = AudioData.new(@sound)
     end
 
     # Run the analysis
     # @return [Boolean]
     def run
+      prepare
       populate_periods
       validate
       true
@@ -101,6 +102,10 @@ module PulseAnalysis
 
     private
 
+    def prepare
+      @data.prepare
+    end
+
     # Calculate the average deviation from timing of one period to
     # the next
     # @return [Float]
@@ -120,19 +125,11 @@ module PulseAnalysis
       60 / seconds / division
     end
 
-    # Populate and prepare the audio data for analysis
-    # @return [PulseAnalysis::AudioData]
-    def populate_data
-      @data = AudioData.new(@sound)
-      @data.prepare
-      @data
-    end
-
     # Load the sound file and validate the data
-    # @param [::File, String] file_or_path File or path to audio file to run analysis on
+    # @param [PulseAnalysis::Sound] sound Sound to analyze
     # @return [PulseAnalysis::Sound]
-    def populate_sound(file_or_path)
-      @sound = Sound.load(file_or_path)
+    def populate_sound(sound)
+      @sound = sound
       @sound.validate_for_analysis
       @sound
     end
@@ -141,11 +138,13 @@ module PulseAnalysis
     # @return [Array<Integer>]
     def calculate_abberations
       i = 0
-      abberations = @periods.map do |period|
-        last_period = i >= 0 ? @periods[i - 1] : 0
-        abberation = period - last_period
+      abberations = []
+      @periods.each do |period|
+        unless i.zero?
+          last_period = @periods[i - 1]
+          abberations << period - last_period
+        end
         i += 1
-        abberation
       end
       abberations.reject!(&:zero?)
       abberations.map(&:abs)
