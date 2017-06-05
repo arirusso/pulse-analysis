@@ -8,16 +8,21 @@ module PulseAnalysis
 
       attr_reader :content
 
+      # @param [PulseAnalysis::Report] report
+      # @return [PulseAnalysis::Console::Table]
       def self.build(report)
         table = new(report)
         table.build
         table
       end
 
+      # @param [PulseAnalysis::Report] report
       def initialize(report)
         @report = report
       end
 
+      # Populate the table content
+      # @return [Terminal::Table]
       def build
         headings = [
           "Item",
@@ -33,10 +38,15 @@ module PulseAnalysis
 
       private
 
+      # How many columns should the 'value' row be?
+      # @return [Integer]
       def value_colspan
         @value_colspan ||= @report.items.map { |item| item[:value] }.map(&:count).max
       end
 
+      # Build a single table row with the given report item
+      # @param [Hash] item
+      # @return [Array<String>]
       def build_row(item)
         row = [item[:description]]
         if item[:value].kind_of?(Array)
