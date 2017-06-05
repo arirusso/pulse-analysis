@@ -72,15 +72,14 @@ require "pulse-analysis"
 
 PulseAnalysis.report("/path/to/a/sound/file.wav")
 
-=>
-
+ => {:file=>{:path=>"../spec/media/roland_r5_audioout_120bpm_88k.wav"}, :analysis=>[{:key=>:sample_rate, :description=>"Sample rate", :value=>{:unit=>"Hertz", :value=>88200}}, {:key=>:length, :description=>"Length", :value=>[{:unit=>"Number of pulses", :value=>4311}, {:unit=>"Time", :value=>"9m0s"}]}, {:key=>:tempo, :description=>"Tempo", :value=>{:unit=>"BPM", :value=>119.9371}},...
 ```
 
 ## Disclaimer
 
 Please remember to use results generated with this program responsibly.  
 
-With the subjective nature of the data at hand, this program is not meant to reflect poorly on any musicians, companies, hobbyists or anyone whose product has measurable timing.  After all, variation in timing may be desirable in some musical contexts.
+With the subjective nature of the data at hand, this program is not meant to reflect poorly on any musicians, companies, hobbyists or anyone whose product has measurable timing.  After all, variation in timing may be desirable in musical context.
 
 Additionally, it's recommended that results be independently verified.  The configuration of a particular device or recording environment can cause variation in timing accuracy.
 
