@@ -48,6 +48,7 @@ This will run the program and output something like
 [/] Reading file /path/to/a/sound/file.wav Done!
 [/] Running analysis Done!
 [\] Generating Report Done!
+
 +------------------------+-------------------------+-------------+
 |                         Pulse Analysis                         |
 +------------------------+-------------------------+-------------+
