@@ -53,12 +53,7 @@ module PulseAnalysis
     # Litmus Test
     # @return [Float]
     def tempo_bpm
-      if @tempo_bpm.nil?
-        seconds = average_period / @sound.sample_rate
-        division = 4 # 16th notes
-        @tempo_bpm = 60 / seconds / division
-      end
-      @tempo_bpm
+      @tempo_bpm ||= calculate_tempo_bpm
     end
 
     # Largest sequential abberation between pulses
@@ -70,21 +65,13 @@ module PulseAnalysis
     # Average sequential abberation between pulses
     # @return [Float]
     def average_abberation
-      if @average_abberation.nil?
-        @average_abberation = if abberations.empty?
-          0.0
-        else
-          abberations.inject(&:+).to_f / abberations.count
-        end
-      end
-      @average_abberation
+      @average_abberation ||= calculate_average_abberation
     end
 
     # Non-zero pulse timing abberations derived from the periods
     # @return [Array<Integer>]
     def abberations
-      populate_abberations if @abberations.nil?
-      @abberations
+      @abberations ||= calculate_abberations
     end
 
     def validate
@@ -104,6 +91,20 @@ module PulseAnalysis
 
     private
 
+    def calculate_average_abberation
+      if abberations.empty?
+        0.0
+      else
+        abberations.inject(&:+).to_f / abberations.count
+      end
+    end
+
+    def calculate_tempo_bpm
+      seconds = average_period / @sound.sample_rate
+      division = 4 # 16th notes
+      60 / seconds / division
+    end
+
     def populate_data
       @data = AudioData.new(@sound)
       @data.prepare
@@ -120,7 +121,7 @@ module PulseAnalysis
     end
 
     # Populate the instance with abberations derived from the periods
-    def populate_abberations
+    def calculate_abberations
       i = 0
       abberations = @periods.map do |period|
         last_period = i >= 0 ? @periods[i - 1] : 0
@@ -129,7 +130,7 @@ module PulseAnalysis
         abberation
       end
       abberations.reject!(&:zero?)
-      @abberations = abberations.map(&:abs)
+      abberations.map(&:abs)
     end
 
     def amplitude_threshold
