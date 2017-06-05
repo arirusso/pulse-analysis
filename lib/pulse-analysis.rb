@@ -28,6 +28,7 @@ module PulseAnalysis
   # @return [PulseAnalysis::Report]
   def self.report(file_or_path, options = {})
     analysis = Analysis.new(file_or_path, options)
+    analysis.run
     Report.new(analysis)
   end
 

@@ -104,6 +104,7 @@ module PulseAnalysis
 
     private
 
+    # Populate the instance with abberations derived from the periods
     def populate_abberations
       i = 0
       abberations = @periods.map do |period|
