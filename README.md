@@ -68,10 +68,10 @@ This will run the program and output something like
 #### In Ruby
 
 ```ruby
-require "pulse-analysis"
+2.4.0 :002 > require "pulse-analysis"
+ => true
 
-PulseAnalysis.report("/path/to/a/sound/file.wav")
-
+2.4.0 :003 > PulseAnalysis.report("/path/to/a/sound/file.wav")
  => {
    :file=>{
      :path=>"/path/to/a/sound/file.wav"},
