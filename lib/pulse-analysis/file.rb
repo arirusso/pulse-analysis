@@ -17,11 +17,13 @@ module PulseAnalysis
       @num_channels = @sound.info.channels
     end
 
+    # The sample rate of the audio file
     # @return [Integer]
     def sample_rate
       @sample_rate ||= @sound.info.samplerate
     end
 
+    # Read the audio file into memory
     # @param [Hash] options
     # @option options [IO] :logger
     # @return [Array<Array<Float>>, Array<Float>] File data
