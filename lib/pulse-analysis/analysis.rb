@@ -11,12 +11,8 @@ module PulseAnalysis
     # @option options [Float] :amplitude_threshold Pulses above this amplitude will be analyzed
     # @option options [Integer] :length_threshold Pulse periods longer than this value will be analyzed
     def initialize(file_or_path, options = {})
-      unless options[:amplitude_threshold].nil?
-        @amplitude_threshold = options[:amplitude_threshold].to_f
-      end
-      unless options[:length_threshold].nil?
-        @length_threshold = options[:length_threshold].to_i
-      end
+      @amplitude_threshold = options[:amplitude_threshold]
+      @length_threshold = options[:length_threshold]
       populate_sound(file_or_path)
       populate_data
     end
