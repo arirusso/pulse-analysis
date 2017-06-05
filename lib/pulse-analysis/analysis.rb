@@ -74,6 +74,15 @@ module PulseAnalysis
       @abberations ||= calculate_abberations
     end
 
+    # The threshold (0..1) at which pulses will register as high
+    # @return [Float]
+    def amplitude_threshold
+      @amplitude_threshold ||= calculate_amplitude_threshold
+    end
+
+    # Validate that analysis on the given data can produce
+    # meaningful results
+    # @return [Boolean]
     def validate
       if valid?
         true
@@ -91,6 +100,9 @@ module PulseAnalysis
 
     private
 
+    # Calculate the average deviation from timing of one period to
+    # the next
+    # @return [Float]
     def calculate_average_abberation
       if abberations.empty?
         0.0
@@ -99,12 +111,16 @@ module PulseAnalysis
       end
     end
 
+    # Calculate the rhythmic tempo of the sound in beats per minute
+    # @return [Float]
     def calculate_tempo_bpm
       seconds = average_period / @sound.sample_rate
       division = 4 # 16th notes
       60 / seconds / division
     end
 
+    # Populate and prepare the audio data for analysis
+    # @return [PulseAnalysis::AudioData]
     def populate_data
       @data = AudioData.new(@sound)
       @data.prepare
@@ -121,6 +137,7 @@ module PulseAnalysis
     end
 
     # Populate the instance with abberations derived from the periods
+    # @return [Array<Integer>]
     def calculate_abberations
       i = 0
       abberations = @periods.map do |period|
@@ -133,18 +150,27 @@ module PulseAnalysis
       abberations.map(&:abs)
     end
 
-    def amplitude_threshold
-      @amplitude_threshold ||= @data.max * 0.8
+    # Calcuate the threshold at which pulses will register as high
+    # This is derived from the audio data
+    # @return [Float]
+    def calculate_amplitude_threshold
+      @data.max * 0.8
     end
 
+    # Threshold at which periods will be disregarded if they are shorter than
+    # Defaults to 80% of the average period size
+    # @param [Array<Integer>]
+    # @return [Integer]
     def length_threshold(raw_periods)
       if @length_threshold.nil?
         average_period = raw_periods.inject(&:+).to_f / raw_periods.count
-        @length_threshold = average_period * 0.8
+        @length_threshold = (average_period * 0.8).to_i
       end
       @length_threshold
     end
 
+    # Calculate periods between pulses
+    # @return [Array<Integer>]
     def populate_periods
       is_low = false
       periods = []
@@ -169,6 +195,8 @@ module PulseAnalysis
       @periods = periods
     end
 
+    # Remove any possibly malformed periods from the calculated set
+    # @return [Array<Integer>]
     def prune_periods(periods)
       # remove the first and last periods in case recording wasn't started/
       # stopped in sync
@@ -177,6 +205,7 @@ module PulseAnalysis
       # remove periods that are below length threshold
       length = length_threshold(periods)
       periods.reject! { |period| period < length }
+      periods
     end
 
   end
