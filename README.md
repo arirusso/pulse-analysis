@@ -10,11 +10,15 @@ The package [libsndfile](https://github.com/erikd/libsndfile) must be installed 
 
 Install the gem itself using
 
-    gem install pulse-analysis
+```sh
+gem install pulse-analysis
+```
 
 Or if you're using Bundler, add this to your Gemfile
 
-    gem "pulse-analysis"
+```ruby
+gem "pulse-analysis"
+```
 
 ## Usage
 
