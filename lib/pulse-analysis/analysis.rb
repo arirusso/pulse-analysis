@@ -2,31 +2,19 @@ module PulseAnalysis
 
   class Analysis
 
-    DEFAULT_THRESHOLD = {
-      amplitude: 0.7,
-      length: 200
-    }.freeze
-
     MINIMUM_PULSES = 10
 
     attr_reader :data, :periods, :sound
 
     # @param [::File, String] file_or_path File or path to audio file to run analysis on
-    # @param [Hash] options
-    # @option options [Float] :amplitude_threshold Pulses above this amplitude will be analyzed
-    # @option options [Integer] :length_threshold Pulse periods longer than this value will be analyzed
-    def initialize(file_or_path, options = {})
-      @threshold = {
-        amplitude: options[:amplitude_threshold] || DEFAULT_THRESHOLD[:amplitude],
-        length: options[:length_threshold] || DEFAULT_THRESHOLD[:length]
-      }
+    def initialize(file_or_path)
       populate_sound(file_or_path)
+      @data = @sound.data
     end
 
     # Run the analysis
     # @return [Boolean]
     def run
-      @data = @sound.data
       populate_periods
       true
     end
@@ -99,11 +87,6 @@ module PulseAnalysis
         true
       else
         message = "Could not produce a valid analysis."
-        if @threshold[:amplitude].nil? && @treshold[:length].nil?
-          message += "  Try providing threshold options."
-        else
-          message += "  Try adjusting threshold options."
-        end
         raise(message)
       end
     end
@@ -138,12 +121,24 @@ module PulseAnalysis
       @abberations = abberations.map(&:abs)
     end
 
+    def amplitude_threshold
+      @amplitude_threshold ||= @data.max * 0.8
+    end
+
+    def length_threshold(raw_periods)
+      if @length_threshold.nil?
+        average_period = raw_periods.inject(&:+).to_f / raw_periods.count
+        @length_threshold = average_period * 0.8
+      end
+      @length_threshold
+    end
+
     def populate_periods
       is_recording = false
       periods = []
       period_index = 0
       @data.each do |frame|
-        if frame.abs < @threshold[:amplitude]
+        if frame.abs < amplitude_threshold
           is_recording = true
           periods[period_index] ||= 0
           periods[period_index] += 1
@@ -159,7 +154,8 @@ module PulseAnalysis
       periods.shift
       periods.pop
       # remove periods that are below length threshold
-      periods.reject! { |period| period < @threshold[:length] }
+      length = length_threshold(periods)
+      periods.reject! { |period| period < length }
       @periods = periods
     end
 
