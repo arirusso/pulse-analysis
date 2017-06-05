@@ -2,9 +2,9 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
 
 require "pulse-analysis"
+require "pulse-analysis/console"
 
 require "optparse"
-require "terminal-table"
 require "tty-spinner"
 
 def help(opts)
@@ -28,6 +28,14 @@ parser = OptionParser.new do |opts|
     options[:length_threshold] = length
   end
 
+  opts.on("-q", "--quiet", "Quiet") do |quiet|
+    options[:quiet] = quiet
+  end
+
+  opts.on("-oFILE", "--output-file=FILE", "Output File (YAML)") do |file|
+    options[:output_file] = file
+  end
+
   opts.on_tail("-h", "--help", "Show this message") { help(opts) }
 
   opts.on_tail("--version", "Show version") do
@@ -40,63 +48,33 @@ end
 
 parser.parse!
 
-spinner = TTY::Spinner.new("[:spinner] :title")
-analysis = nil
-report = nil
-
-spinner.update(title: "Reading file #{ARGV[0]}")
-spinner.run("Done!") { analysis = PulseAnalysis::Analysis.new(ARGV[0], options) }
-
-spinner.update(title: "Running analysis")
-spinner.run("Done!") do
+if options[:quiet]
+  analysis = PulseAnalysis::Analysis.new(ARGV[0], options)
   analysis.run
-  unless analysis.valid?
-    message = "Could not produce a valid analysis."
-    if options[:length_threshold].nil? && options[:amplitude_threshold].nil?
-      message += "  Try providing threshold options."
-    else
-      message += "  Try adjusting threshold options."
-    end
-    raise(message)
+  analysis.validate
+  report = PulseAnalysis::Report.new(analysis)
+else
+  spinner = TTY::Spinner.new("[:spinner] :title")
+  analysis = nil
+  report = nil
+
+  spinner.update(title: "Reading file #{ARGV[0]}")
+  spinner.run("Done!") { analysis = PulseAnalysis::Analysis.new(ARGV[0], options) }
+
+  spinner.update(title: "Running analysis")
+  spinner.run("Done!") do
+    analysis.run
+    analysis.validate
   end
-end
 
-spinner.update(title: "Generating Report")
-spinner.run("Done!") { report = PulseAnalysis::Report.new(analysis) }
+  spinner.update(title: "Generating Report")
+  spinner.run("Done!") { report = PulseAnalysis::Report.new(analysis) }
 
-value_colspan = report.items.map { |item| item[:value] }.map(&:count).max
+  puts
 
-puts
-
-table = Terminal::Table.new(title: "Pulse Analysis", headings: ["Item", { value: "Value", colspan: value_colspan }]) do |table|
-
-  report.items.each do |item|
-
-    row = [item[:description]]
-    if item[:value].kind_of?(Array)
-      # item has multiple units of measure
-      item[:value].each_with_index do |value, i|
-        cell = {
-          value: "#{value[:value]} (#{value[:unit]})",
-        }
-        # make up remaining colspan
-        if item[:value].last == value
-          cell[:colspan] = value_colspan - i
-        end
-        row << cell
-      end
-    else
-      # item has single unit of measure
-      value = item[:value]
-      row << {
-        value: "#{value[:value]} (#{value[:unit]})",
-        colspan: value_colspan # full width
-      }
-    end
-    table << row
-
-  end
+  table = PulseAnalysis::Console::Table.new(report)
+  table.build
 
 end
 
-puts(table)
+puts(table.content)
