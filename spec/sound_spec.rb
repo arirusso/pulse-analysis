@@ -7,6 +7,30 @@ describe PulseAnalysis::Analysis do
     @stereo_media = File.join("spec", "media", "expert-sleepers_disting_lfo_88k.wav")
   end
 
+  context ".load" do
+
+    before(:each) do
+      @sound = PulseAnalysis::Sound.load(@mono_media)
+      @data = @sound.data
+      @size = @sound.size
+    end
+
+    it "populates data" do
+      expect(@data).to_not(be_nil)
+      expect(@size).to_not(be_nil)
+      expect(@data).to(be_kind_of(Array))
+      expect(@data).to_not(be_empty)
+      expect(@size).to(eq(@data.size))
+    end
+
+    it "has correct values" do
+      expect(@data).to(all(be_a(Float)))
+      expect(@data).to(all(be >= -1))
+      expect(@data).to(all(be <= 1))
+    end
+
+  end
+
   context "#validate_for_analysis" do
 
     before(:each) do
