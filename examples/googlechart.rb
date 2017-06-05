@@ -14,7 +14,7 @@ chart = Gchart.new(
   theme: :keynote,
   title: "Roland R5 Timing",
   legend: ["Roland R5"],
-  data: [r5.analysis.periods]
+  data: [r5.analysis.abberations]
 )
 
 # save to file
