@@ -85,28 +85,14 @@ This will run the program and output something like
          }
        },
        {
-         :key=>:length,
-         :description=>"Length",
-         :value=>[
-           {
-             :unit=>"Number of pulses",
-             :value=>4311
-           },
-           {
-             :unit=>"Time",
-             :value=>"9m0s"
-           }
-          ]
-        },
-        {
-          :key=>:tempo,
-          :description=>"Tempo",
-          :value=>{
-            :unit=>"BPM",
-            :value=>119.9371
-          }
-        },
-        ...
+         :key=>:tempo,
+         :description=>"Tempo",
+         :value=>{
+           :unit=>"BPM",
+           :value=>119.9371
+         }
+       },
+       ...
 ```
 
 ## Disclaimer
