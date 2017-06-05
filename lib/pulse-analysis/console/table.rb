@@ -24,19 +24,24 @@ module PulseAnalysis
       # Populate the table content
       # @return [Terminal::Table]
       def build
-        headings = [
+        @content = Terminal::Table.new(title: "Pulse Analysis", headings: header) do |table|
+          @report.items.each { |item| table << build_row(item) }
+        end
+      end
+
+      private
+
+      # Table header
+      # @return [Array<Hash, String>]
+      def header
+        [
           "Item",
           {
             value: "Value",
             colspan: value_colspan
           }
         ]
-        @content = Terminal::Table.new(title: "Pulse Analysis", headings: headings) do |table|
-          @report.items.each { |item| table << build_row(item) }
-        end
       end
-
-      private
 
       # How many columns should the 'value' row be?
       # @return [Integer]
