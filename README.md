@@ -20,17 +20,19 @@ Or if you're using Bundler, add this to your Gemfile
 
 ### Input file
 
-Pulse-Analysis operates on a single input audio file at a time.  The audio file can be in [formats] format.
+Pulse-Analysis operates on a single input audio file at a time.
 
 #### File format
 
-In keeping with conventions established by the Litmus Test, audio input files must be at least 48k sample rate.  
+The audio file must be in an uncompressed format such as *WAV* or *AIFF*.
+
+In keeping with conventions established by the Litmus Test, audio input files must be at least *48k* sample rate.  
 
 Mono audio files are recommended.  If a stereo file is used, only the left channel will be analyzed.
 
 #### File content
 
-It's recommended that the audio file have a pulse rate of 16th notes at 120bpm and be around ten minutes long.
+It's recommended that the audio file have a pulse rate of *16th notes* at *120 BPM* and be around *10 minutes long*.
 
 If it's not clear what's meant by this, sample audio files are included in the repository and can be found [here](https://github.com/arirusso/pulse-analysis/tree/master/spec/media)
 
