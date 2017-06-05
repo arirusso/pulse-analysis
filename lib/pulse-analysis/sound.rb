@@ -19,7 +19,7 @@ module PulseAnalysis
 
     # @param [PulseAnalysis::File] audio_file
     # @param [Hash] options
-    # @option options [IO] logger
+    # @option options [IO] :logger
     def initialize(audio_file, options = {})
       @audio_file = audio_file
       populate(options)
