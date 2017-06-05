@@ -10,6 +10,8 @@ module PulseAnalysis
       populate
     end
 
+    # Convert the report to a hash
+    # @return [Hash]
     def to_h
       {
         file: {
@@ -19,30 +21,19 @@ module PulseAnalysis
       }
     end
 
+    # Override Object#inspect to not include the large audio data
+    # @return [String]
     def inspect
       to_h.inspect
     end
 
-    def num_samples_to_seconds(num_samples)
-      num_samples / @analysis.sound.sample_rate
-    end
-
-    def num_samples_to_formatted_time(num_samples)
-      min_sec = num_samples_to_seconds(num_samples).divmod(60)
-      "#{min_sec[0]}m#{min_sec[1]}s"
-    end
-
-    def num_samples_to_millis(num_samples)
-      ((num_samples.to_f / @analysis.sound.sample_rate) * 1000).round(2)
-    end
+    private
 
     # Usable length of the audio file in the format (MMmSSs)
     # @return [String]
     def length_in_formatted_time
-      @length_in_formatted_time ||= num_samples_to_formatted_time(@analysis.sound.size)
+      @length_in_formatted_time ||= Conversion.num_samples_to_formatted_time(@analysis.sound.sample_rate, @analysis.sound.size)
     end
-
-    private
 
     # Popualate the report
     # @return [Array]
@@ -91,7 +82,7 @@ module PulseAnalysis
             },
             {
               unit: "ms",
-              value: num_samples_to_millis(@analysis.longest_period)
+              value: Conversion.num_samples_to_millis(@analysis.sound.sample_rate, @analysis.longest_period).round(2)
             }
           ]
         }
@@ -105,7 +96,7 @@ module PulseAnalysis
             },
             {
               unit: "ms",
-              value: num_samples_to_millis(@analysis.shortest_period)
+              value: Conversion.num_samples_to_millis(@analysis.sound.sample_rate, @analysis.shortest_period).round(2)
             }
           ]
         }
@@ -119,7 +110,7 @@ module PulseAnalysis
             },
             {
               unit: "ms",
-              value: num_samples_to_millis(@analysis.average_period)
+              value: Conversion.num_samples_to_millis(@analysis.sound.sample_rate, @analysis.average_period).round(2)
             }
           ]
         }
@@ -133,7 +124,7 @@ module PulseAnalysis
             },
             {
               unit: "ms",
-              value: num_samples_to_millis(@analysis.largest_abberation)
+              value: Conversion.num_samples_to_millis(@analysis.sound.sample_rate, @analysis.largest_abberation).round(2)
             }
           ]
         }
@@ -147,7 +138,7 @@ module PulseAnalysis
             },
             {
               unit: "ms",
-              value: num_samples_to_millis(@analysis.average_abberation)
+              value: Conversion.num_samples_to_millis(@analysis.sound.sample_rate, @analysis.average_abberation).round(2)
             }
           ]
         }

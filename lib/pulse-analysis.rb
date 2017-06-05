@@ -10,6 +10,9 @@
 require "forwardable"
 require "ruby-audio"
 
+# modules
+require "pulse-analysis/conversion"
+
 # classes
 require "pulse-analysis/analysis"
 require "pulse-analysis/audio_data"
