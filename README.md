@@ -26,7 +26,31 @@ Sample audio files are included in the repository and can be found [here](https:
 
 #### Command Line
 
-`pulse-analysis /path/to/a/sound/file.wav`
+```sh
+pulse-analysis /path/to/a/sound/file.wav
+```
+
+This will output something like
+
+```sh
+[/] Reading file /path/to/a/sound/file.wav Done!
+[/] Running analysis Done!
+[\] Generating Report Done!
++------------------------+-------------------------+-------------+
+|                             Report                             |
++------------------------+-------------------------+-------------+
+| Item                   | Value                                 |
++------------------------+-------------------------+-------------+
+| Sample rate            | 88200 (Hertz)                         |
+| Length                 | 4311 (Number of pulses) | 9m0s (Time) |
+| Tempo                  | 119.9371 (BPM)                        |
+| Longest period length  | 11289 (Samples)         | 127.99 (MS) |
+| Shortest period length | 10687 (Samples)         | 121.17 (MS) |
+| Average period length  | 11030.7838 (Samples)    | 125.07 (MS) |
+| Largest abberation     | 543 (Samples)           | 6.16 (MS)   |
+| Average abberation     | 155.5279 (Samples)      | 1.76 (MS)   |
++------------------------+-------------------------+-------------+
+```
 
 #### In Ruby
 
@@ -45,7 +69,7 @@ Please use the results generated with this program responsibly.
 
 With the subjective nature of the data at hand, this program is not meant to reflect poorly on any musicians, companies, hobbyists or anyone whose product has measurable timing.  After all, variation in timing may be desirable in some musical contexts.
 
-Additionally, it's recommended that results be independently verified.  The settings of a particular device and recording environment can cause variation in timing accuracy.
+Additionally, it's recommended that results be independently verified.  The configuration of a particular device or recording environment can cause variation in timing accuracy.
 
 ## License
 
