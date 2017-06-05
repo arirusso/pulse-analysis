@@ -17,6 +17,7 @@ module PulseAnalysis
       @num_channels = @sound.info.channels
     end
 
+    # @return [Integer]
     def sample_rate
       @sample_rate ||= @sound.info.samplerate
     end

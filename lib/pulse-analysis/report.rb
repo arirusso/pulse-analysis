@@ -7,6 +7,7 @@ module PulseAnalysis
     def_delegators :@report, :to_s
     attr_reader :analysis
 
+    # @param [PulseAnalysis::Analysis] analysis The analysis to report on.  Required that analysis has been run (see Analysis#run)
     def initialize(analysis)
       @analysis = analysis
       populate
@@ -14,6 +15,8 @@ module PulseAnalysis
 
     private
 
+    # Popualate the report
+    # @return [Hash]
     def populate
       if @analysis.periods.nil?
         raise "Analysis has not been run yet (use Analysis#run)"
