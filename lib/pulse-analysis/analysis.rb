@@ -94,6 +94,20 @@ module PulseAnalysis
       @abberations
     end
 
+    def validate
+      if valid?
+        true
+      else
+        message = "Could not produce a valid analysis."
+        if @threshold[:amplitude].nil? && @treshold[:length].nil?
+          message += "  Try providing threshold options."
+        else
+          message += "  Try adjusting threshold options."
+        end
+        raise(message)
+      end
+    end
+
     # Validate that the analysis has produced meaningful results
     # @return [Boolean]
     def valid?

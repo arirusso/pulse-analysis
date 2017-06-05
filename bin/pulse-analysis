@@ -72,9 +72,6 @@ else
 
   puts
 
-  table = PulseAnalysis::Console::Table.new(report)
-  table.build
-
+  table = PulseAnalysis::Console::Table.build(report)
+  puts(table.content)
 end
-
-puts(table.content)
