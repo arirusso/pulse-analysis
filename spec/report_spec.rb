@@ -4,7 +4,8 @@ describe PulseAnalysis::Report do
 
   before(:each) do
     @media = File.join("spec", "media", "roland_r5_audioout_120bpm_88k.wav")
-    @analysis = PulseAnalysis::Analysis.new(@media)
+    @sound = PulseAnalysis::Sound.load(@media)
+    @analysis = PulseAnalysis::Analysis.new(@sound)
     @analysis.run
     @report = PulseAnalysis::Report.new(@analysis)
   end
