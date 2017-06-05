@@ -10,6 +10,19 @@ module PulseAnalysis
       populate
     end
 
+    def to_h
+      {
+        file: {
+          path: @analysis.sound.audio_file.path.to_s
+        },
+        analysis: @items
+      }
+    end
+
+    def inspect
+      to_h.inspect
+    end
+
     def num_samples_to_seconds(num_samples)
       num_samples / @analysis.sound.sample_rate
     end
