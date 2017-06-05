@@ -7,7 +7,7 @@ module PulseAnalysis
     # @param [PulseAnalysis::Analysis] analysis The analysis to report on.  Required that analysis has been run (see Analysis#run)
     def initialize(analysis)
       @analysis = analysis
-      populate
+      populate_items
     end
 
     # Convert the report to a hash
@@ -37,7 +37,7 @@ module PulseAnalysis
 
     # Popualate the report
     # @return [Array]
-    def populate
+    def populate_items
       if @analysis.periods.nil?
         raise "Analysis has not been run yet (use Analysis#run)"
       else
