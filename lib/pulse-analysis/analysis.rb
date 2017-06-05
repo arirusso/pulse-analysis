@@ -14,12 +14,13 @@ module PulseAnalysis
       @amplitude_threshold = options[:amplitude_threshold]
       @length_threshold = options[:length_threshold]
       populate_sound(file_or_path)
-      @data = @sound.data
+      populate_data
     end
 
     # Run the analysis
     # @return [Boolean]
     def run
+      normalize_audio
       populate_periods
       true
     end
@@ -104,6 +105,30 @@ module PulseAnalysis
 
     private
 
+    def populate_data
+      @data = @sound.data
+      convert_to_mono if convert_to_mono?
+      @data
+    end
+
+    def convert_to_mono?
+      @sound.num_channels > 1
+    end
+
+    # Logic for converting a stereo sound to mono
+    def convert_to_mono
+      # Use left channel
+      @data = @data.map(&:first)
+    end
+
+    def normalize_audio
+      headroom = 1.0 - @data.max
+      if headroom > 0.0
+        factor = 1.0 / @data.max
+        @data.map! { |frame| frame * factor }
+      end
+    end
+
     # Load the sound file and validate the data
     # @param [::File, String] file_or_path File or path to audio file to run analysis on
     # @return [PulseAnalysis::Sound]
@@ -127,7 +152,7 @@ module PulseAnalysis
     end
 
     def amplitude_threshold
-      @amplitude_threshold ||= @data.max * 0.85
+      @amplitude_threshold ||= @data.max * 0.8
     end
 
     def length_threshold(raw_periods)
@@ -166,12 +191,6 @@ module PulseAnalysis
       length = length_threshold(periods)
       periods.reject! { |period| period < length }
       @periods = periods
-    end
-
-    # Logic for converting a stereo sound to mono
-    def convert_to_mono
-      # Use left channel
-      @sound.data = @sound.data.map(&:first)
     end
 
   end

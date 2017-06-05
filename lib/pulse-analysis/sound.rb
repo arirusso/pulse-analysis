@@ -40,10 +40,6 @@ module PulseAnalysis
     # Validate that the sound is analyzable
     # @return [Boolean]
     def validate_for_analysis
-      if num_channels > 1
-        puts "Input file is not mono, using first/left channel"
-        convert_to_mono
-      end
       if sample_rate < 48000
         raise "Sample rate must be at least 48000"
       end
