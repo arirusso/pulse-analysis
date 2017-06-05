@@ -7,6 +7,33 @@ describe PulseAnalysis::Analysis do
     @stereo_media = File.join("spec", "media", "expert-sleepers_disting_lfo_88k.wav")
   end
 
+  context "#validate_for_analysis" do
+
+    before(:each) do
+      @file = PulseAnalysis::File.new(@mono_media)
+      @sound = PulseAnalysis::Sound.new(@file)
+    end
+
+    context "sample rate too low" do
+
+      it "raises" do
+        expect(@sound).to(receive(:sample_rate).once.and_return(44100))
+        expect { @sound.validate_for_analysis }.to(raise_exception(RuntimeError))
+      end
+
+    end
+
+    context "sample rate ok" do
+
+      it "returns true" do
+        @result = @sound.validate_for_analysis
+        expect(@result).to(be(true))
+      end
+
+    end
+
+  end
+
   context "#populate" do
 
     context "mono" do
