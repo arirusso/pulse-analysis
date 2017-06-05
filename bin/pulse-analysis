@@ -85,14 +85,7 @@ end
 unless options[:output_file].nil?
   require "yaml"
 
-  output = {
-    file: {
-      path: report.analysis.sound.audio_file.path.to_s
-    },
-    analysis: report.items
-  }
-
   File.open(options[:output_file], "w") do |f|
-    f.write(output.to_yaml)
+    f.write(output.to_h.to_yaml)
   end
 end
