@@ -4,7 +4,7 @@ module PulseAnalysis
 
     extend Forwardable
 
-    def_delegators :@data, :each, :max, :min
+    def_delegators :@data, :[], :count, :each, :length, :max, :min, :size
 
     def initialize(sound)
       @sound = sound
