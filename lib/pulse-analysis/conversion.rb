@@ -14,13 +14,17 @@ module PulseAnalysis
     end
 
     # Convert a quantity of samples to a formatted time string with regard
-    # to the sample rate.  (eg "1m20s")
+    # to the sample rate.  (eg "1m20s", "2m22.4s"
     # @param [Integer] sample_rate Sample rate in hertz (eg 88200)
     # @param [Integer] num_samples
     # @return [String]
     def num_samples_to_formatted_time(sample_rate, num_samples)
-      min_sec = num_samples_to_seconds(sample_rate, num_samples).divmod(60)
-      "#{min_sec[0]}m#{min_sec[1]}s"
+      min, sec = *num_samples_to_seconds(sample_rate, num_samples).divmod(60)
+      # convert seconds to int if it has no decimal value
+      if sec.to_i % sec == 0
+        sec = sec.to_i
+      end
+      "#{min}m#{sec}s"
     end
 
     # Convert a quantity of samples to milliseconds with regard to the
