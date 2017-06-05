@@ -77,7 +77,7 @@ module PulseAnalysis
               value: @analysis.longest_period
             },
             {
-              unit: "MS",
+              unit: "ms",
               value: num_samples_to_millis(@analysis.longest_period)
             }
           ]
@@ -91,7 +91,7 @@ module PulseAnalysis
               value: @analysis.shortest_period
             },
             {
-              unit: "MS",
+              unit: "ms",
               value: num_samples_to_millis(@analysis.shortest_period)
             }
           ]
@@ -105,7 +105,7 @@ module PulseAnalysis
               value: @analysis.average_period.round(4)
             },
             {
-              unit: "MS",
+              unit: "ms",
               value: num_samples_to_millis(@analysis.average_period)
             }
           ]
@@ -119,7 +119,7 @@ module PulseAnalysis
               value: @analysis.largest_abberation
             },
             {
-              unit: "MS",
+              unit: "ms",
               value: num_samples_to_millis(@analysis.largest_abberation)
             }
           ]
@@ -133,7 +133,7 @@ module PulseAnalysis
               value: @analysis.average_abberation.round(4)
             },
             {
-              unit: "MS",
+              unit: "ms",
               value: num_samples_to_millis(@analysis.average_abberation)
             }
           ]

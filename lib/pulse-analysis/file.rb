@@ -7,7 +7,7 @@ module PulseAnalysis
 
     attr_reader :file, :num_channels, :size
 
-    def_delegators :@file, :path
+    def_delegators :@file, :absolute_path, :path
 
     # @param [::File, String] file_or_path
     def initialize(file_or_path)

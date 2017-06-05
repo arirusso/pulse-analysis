@@ -48,6 +48,12 @@ end
 
 parser.parse!
 
+unless options[:output_file].nil?
+  File.open(options[:output_file], "w") do |f|
+    f.write("")
+  end
+end
+
 if options[:quiet]
   analysis = PulseAnalysis::Analysis.new(ARGV[0], options)
   analysis.run
@@ -74,4 +80,19 @@ else
 
   table = PulseAnalysis::Console::Table.build(report)
   puts(table.content)
+end
+
+unless options[:output_file].nil?
+  require "yaml"
+
+  output = {
+    file: {
+      path: report.analysis.sound.audio_file.path.to_s
+    },
+    analysis: report.items
+  }
+
+  File.open(options[:output_file], "w") do |f|
+    f.write(output.to_yaml)
+  end
 end
