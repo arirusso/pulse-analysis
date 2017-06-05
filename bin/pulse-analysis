@@ -1,0 +1,52 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
+
+require "pulse-analysis"
+require "optparse"
+require "tty-spinner"
+
+def help(opts)
+  puts(opts)
+  exit
+end
+
+options = {}
+
+parser = OptionParser.new do |opts|
+
+  opts.banner = "Usage: pulse-analysis [file] [options]"
+  opts.separator ""
+  opts.separator "Specific options:"
+
+  opts.on("-aAMPLITUDE", "--amplitude_threshold=AMPLITUDE", "Amplitude Threshold") do |amplitude|
+    options[:amplitude_threshold] = amplitude
+  end
+
+  opts.on("-lLENGTH", "--length_threshold=LENGTH", "Length Threshold") do |length|
+    options[:length_threshold] = length
+  end
+
+  opts.on_tail("-h", "--help", "Show this message") { help(opts) }
+
+  opts.on_tail("--version", "Show version") do
+    puts PulseAnalysis::VERSION
+    exit
+  end
+
+  help(opts) if ARGV.empty?
+end
+
+parser.parse!
+
+spinner = TTY::Spinner.new("[:spinner] :title")
+analysis = nil
+report = nil
+
+spinner.update(title: "Reading file #{ARGV[0]}")
+spinner.run("Done!") { analysis = PulseAnalysis::Analysis.new(ARGV[0], options) }
+spinner.update(title: "Running analysis")
+spinner.run("Done!") { analysis.run }
+spinner.update(title: "Generating Report")
+spinner.run("Done!") { report = PulseAnalysis::Report.new(analysis) }
+
+p report.to_s
