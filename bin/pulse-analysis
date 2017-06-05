@@ -46,8 +46,21 @@ report = nil
 
 spinner.update(title: "Reading file #{ARGV[0]}")
 spinner.run("Done!") { analysis = PulseAnalysis::Analysis.new(ARGV[0], options) }
+
 spinner.update(title: "Running analysis")
-spinner.run("Done!") { analysis.run }
+spinner.run("Done!") do
+  analysis.run
+  unless analysis.valid?
+    message = "Could not produce a valid analysis."
+    if options[:length_threshold].nil? && options[:amplitude_threshold].nil?
+      message += "  Try providing threshold options."
+    else
+      message += "  Try adjusting threshold options."
+    end
+    raise(message)
+  end
+end
+
 spinner.update(title: "Generating Report")
 spinner.run("Done!") { report = PulseAnalysis::Report.new(analysis) }
 

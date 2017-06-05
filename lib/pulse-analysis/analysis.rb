@@ -7,6 +7,8 @@ module PulseAnalysis
       length: 200
     }.freeze
 
+    MINIMUM_PULSES = 10
+
     attr_reader :data, :periods, :sound
 
     # @param [::File, String] file_or_path File or path to audio file to run analysis on
@@ -18,8 +20,7 @@ module PulseAnalysis
         amplitude: options[:amplitude_threshold] || DEFAULT_THRESHOLD[:amplitude],
         length: options[:length_threshold] || DEFAULT_THRESHOLD[:length]
       }
-      @sound = Sound.load(file_or_path)
-      validate_sound
+      populate_sound(file_or_path)
     end
 
     # Run the analysis
@@ -93,7 +94,22 @@ module PulseAnalysis
       @abberations
     end
 
+    # Validate that the analysis has produced meaningful results
+    # @return [Boolean]
+    def valid?
+      @periods.count > MINIMUM_PULSES
+    end
+
     private
+
+    # Load the sound file and validate the data
+    # @param [::File, String] file_or_path File or path to audio file to run analysis on
+    # @return [PulseAnalysis::Sound]
+    def populate_sound(file_or_path)
+      @sound = Sound.load(file_or_path)
+      @sound.validate_for_analysis
+      @sound
+    end
 
     # Populate the instance with abberations derived from the periods
     def populate_abberations
@@ -133,27 +149,10 @@ module PulseAnalysis
       @periods = periods
     end
 
-    def warn(message)
-      puts(message)
-    end
-
     # Logic for converting a stereo sound to mono
     def convert_to_mono
       # Use left channel
       @sound.data = @sound.data.map(&:first)
-    end
-
-    # Validate that the sound is analyzable
-    # @return [Boolean]
-    def validate_sound
-      if @sound.num_channels > 1
-        warn "Input file is not mono, using first/left channel"
-        convert_to_mono
-      end
-      if @sound.sample_rate < 48000
-        raise "Sample rate must be at least 48000"
-      end
-      true
     end
 
   end
