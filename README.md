@@ -72,7 +72,41 @@ require "pulse-analysis"
 
 PulseAnalysis.report("/path/to/a/sound/file.wav")
 
- => {:file=>{:path=>"../spec/media/roland_r5_audioout_120bpm_88k.wav"}, :analysis=>[{:key=>:sample_rate, :description=>"Sample rate", :value=>{:unit=>"Hertz", :value=>88200}}, {:key=>:length, :description=>"Length", :value=>[{:unit=>"Number of pulses", :value=>4311}, {:unit=>"Time", :value=>"9m0s"}]}, {:key=>:tempo, :description=>"Tempo", :value=>{:unit=>"BPM", :value=>119.9371}},...
+ => {
+   :file=>{
+     :path=>"../spec/media/roland_r5_audioout_120bpm_88k.wav"},
+     :analysis=>[
+       {
+         :key=>:sample_rate,
+         :description=>"Sample rate",
+         :value=>{
+           :unit=>"Hertz",
+           :value=>88200
+         }
+       },
+       {
+         :key=>:length,
+         :description=>"Length",
+         :value=>[
+           {
+             :unit=>"Number of pulses",
+             :value=>4311
+           },
+           {
+             :unit=>"Time",
+             :value=>"9m0s"
+           }
+          ]
+        },
+        {
+          :key=>:tempo,
+          :description=>"Tempo", 
+          :value=>{
+            :unit=>"BPM",
+            :value=>119.9371
+          }
+        },
+        ...
 ```
 
 ## Disclaimer
