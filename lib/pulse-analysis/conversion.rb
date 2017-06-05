@@ -24,7 +24,9 @@ module PulseAnalysis
       if sec.to_i % sec == 0
         sec = sec.to_i
       end
-      "#{min}m#{sec}s"
+      # only include minutes if there is a value
+      result = min > 0 ? "#{min}m" : ""
+      result + "#{sec}s"
     end
 
     # Convert a quantity of samples to milliseconds with regard to the
