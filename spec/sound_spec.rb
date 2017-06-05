@@ -1,6 +1,6 @@
 require "helper"
 
-describe PulseAnalysis::Analysis do
+describe PulseAnalysis::Sound do
 
   before(:each) do
     @mono_media = File.join("spec", "media", "ableton_live_exportaudio_120bpm_48k.wav")
