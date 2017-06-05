@@ -4,7 +4,7 @@ module PulseAnalysis
 
     MINIMUM_PULSES = 10
 
-    attr_reader :data, :periods, :sound
+    attr_reader :abberations, :data, :periods, :sound
 
     # @param [::File, String] file_or_path File or path to audio file to run analysis on
     # @param [Hash] options
