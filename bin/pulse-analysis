@@ -2,7 +2,9 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
 
 require "pulse-analysis"
+
 require "optparse"
+require "terminal-table"
 require "tty-spinner"
 
 def help(opts)
@@ -49,4 +51,37 @@ spinner.run("Done!") { analysis.run }
 spinner.update(title: "Generating Report")
 spinner.run("Done!") { report = PulseAnalysis::Report.new(analysis) }
 
-p report.to_s
+value_colspan = report.items.map { |item| item[:value] }.map(&:count).max
+
+table = Terminal::Table.new(title: "Report", headings: ["Item", { value: "Value", colspan: value_colspan }]) do |table|
+
+  report.items.each do |item|
+
+    row = [item[:description]]
+    if item[:value].kind_of?(Array)
+      # item has multiple units of measure
+      item[:value].each_with_index do |value, i|
+        cell = {
+          value: "#{value[:value]} (#{value[:unit]})",
+        }
+        # make up remaining colspan
+        if item[:value].last == value
+          cell[:colspan] = value_colspan - i
+        end
+        row << cell
+      end
+    else
+      # item has single unit of measure
+      value = item[:value]
+      row << {
+        value: "#{value[:value]} (#{value[:unit]})",
+        colspan: value_colspan # full width
+      }
+    end
+    table << row
+
+  end
+
+end
+
+puts(table)

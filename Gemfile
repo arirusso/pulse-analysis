@@ -6,4 +6,5 @@ group :test do
 end
 
 gem "ruby-audio", "~> 1.6", ">= 1.6.1"
+gem "terminal-table"
 gem "tty-spinner"

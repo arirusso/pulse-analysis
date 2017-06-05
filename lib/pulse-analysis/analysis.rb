@@ -30,22 +30,6 @@ module PulseAnalysis
       true
     end
 
-    # Usable length of the audio file in seconds
-    # @return [Integer]
-    def length_in_seconds
-      @length_in_seconds ||= @sound.size / @sound.sample_rate
-    end
-
-    # Usable length of the audio file in the format (MMmSSs)
-    # @return [String]
-    def length_formatted
-      if @length_formatted.nil?
-        min_sec = length_in_seconds.divmod(60)
-        @length_formatted = "#{min_sec[0]}m#{min_sec[1]}s"
-      end
-      @length_formatted
-    end
-
     # Average number of samples between pulses
     # @return [Float]
     def average_period
@@ -86,13 +70,20 @@ module PulseAnalysis
     # Largest sequential abberation between pulses
     # @return [Integer]
     def largest_abberation
-      @largest_abberation ||= abberations.max
+      @largest_abberation ||= abberations.max || 0
     end
 
     # Average sequential abberation between pulses
     # @return [Float]
     def average_abberation
-      @average_abberation ||= abberations.inject(&:+).to_f / abberations.count
+      if @average_abberation.nil?
+        @average_abberation = if abberations.empty?
+          0.0
+        else
+          abberations.inject(&:+).to_f / abberations.count
+        end
+      end
+      @average_abberation
     end
 
     # Non-zero pulse timing abberations derived from the periods

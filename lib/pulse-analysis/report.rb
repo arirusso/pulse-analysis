@@ -2,10 +2,7 @@ module PulseAnalysis
 
   class Report
 
-    extend Forwardable
-
-    def_delegators :@report, :to_s
-    attr_reader :analysis
+    attr_reader :analysis, :items
 
     # @param [PulseAnalysis::Analysis] analysis The analysis to report on.  Required that analysis has been run (see Analysis#run)
     def initialize(analysis)
@@ -13,25 +10,135 @@ module PulseAnalysis
       populate
     end
 
+    def num_samples_to_seconds(num_samples)
+      num_samples / @analysis.sound.sample_rate
+    end
+
+    def num_samples_to_formatted_time(num_samples)
+      min_sec = num_samples_to_seconds(num_samples).divmod(60)
+      "#{min_sec[0]}m#{min_sec[1]}s"
+    end
+
+    def num_samples_to_millis(num_samples)
+      ((num_samples.to_f / @analysis.sound.sample_rate) * 1000).round(2)
+    end
+
+    # Usable length of the audio file in the format (MMmSSs)
+    # @return [String]
+    def length_in_formatted_time
+      @length_in_formatted_time ||= num_samples_to_formatted_time(@analysis.sound.size)
+    end
+
     private
 
     # Popualate the report
-    # @return [Hash]
+    # @return [Array]
     def populate
       if @analysis.periods.nil?
         raise "Analysis has not been run yet (use Analysis#run)"
       else
-        @report = {}
-        @report[:sample_rate] = @analysis.sound.sample_rate
-        @report[:length] = @analysis.length_formatted
-        @report[:num_pulses] = @analysis.num_pulses
-        @report[:tempo_bpm] = @analysis.tempo_bpm
-        @report[:average_period] = @analysis.average_period
-        @report[:longest_period] = @analysis.longest_period
-        @report[:shortest_period] = @analysis.shortest_period
-        @report[:average_abberation] = @analysis.average_abberation
-        @report[:largest_abberation] = @analysis.largest_abberation
-        @report
+        @items = []
+        @items << {
+          key: :sample_rate,
+          description: "Sample rate",
+          value: {
+            unit: "Hertz",
+            value: @analysis.sound.sample_rate
+          }
+        }
+        @items << {
+          key: :length,
+          description: "Length",
+          value: [
+            {
+              unit: "Number of pulses",
+              value: @analysis.num_pulses
+            },
+            {
+              unit: "Time",
+              value: length_in_formatted_time
+            }
+          ]
+        }
+        @items << {
+          key: :tempo,
+          description: "Tempo",
+          value: {
+            unit: "BPM",
+            value: @analysis.tempo_bpm.round(4)
+          }
+        }
+        @items << {
+          key: :longest_period,
+          description: "Longest period length",
+          value: [
+            {
+              unit: "Samples",
+              value: @analysis.longest_period
+            },
+            {
+              unit: "MS",
+              value: num_samples_to_millis(@analysis.longest_period)
+            }
+          ]
+        }
+        @items << {
+          key: :shortest_period,
+          description: "Shortest period length",
+          value: [
+            {
+              unit: "Samples",
+              value: @analysis.shortest_period
+            },
+            {
+              unit: "MS",
+              value: num_samples_to_millis(@analysis.shortest_period)
+            }
+          ]
+        }
+        @items << {
+          key: :average_period,
+          description: "Average period length",
+          value: [
+            {
+              unit: "Samples",
+              value: @analysis.average_period.round(4)
+            },
+            {
+              unit: "MS",
+              value: num_samples_to_millis(@analysis.average_period)
+            }
+          ]
+        }
+        @items << {
+          key: :largest_abberation,
+          description: "Largest abberation",
+          value: [
+            {
+              unit: "Samples",
+              value: @analysis.largest_abberation
+            },
+            {
+              unit: "MS",
+              value: num_samples_to_millis(@analysis.largest_abberation)
+            }
+          ]
+        }
+        @items << {
+          key: :average_abberation,
+          description: "Average abberation",
+          value: [
+            {
+              unit: "Samples",
+              value: @analysis.average_abberation.round(4)
+            },
+            {
+              unit: "MS",
+              value: num_samples_to_millis(@analysis.average_abberation)
+            }
+          ]
+        }
+        @items
       end
     end
 
