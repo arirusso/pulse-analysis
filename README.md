@@ -24,21 +24,15 @@ gem "pulse-analysis"
 
 ### Input file
 
-Pulse-Analysis operates on a single input audio file at a time.
-
-#### Audio format
-
-The audio file must be in an uncompressed format such as *WAV* or *AIFF*.
+Pulse-Analysis operates on a single input audio file at a time.  This file must be in an uncompressed format such as *WAV* or *AIFF*.
 
 In keeping with conventions established by the Litmus Test, audio input files must be at least *48k* sample rate.  
 
 Mono audio files are recommended.  If a stereo file is used, only the left channel will be analyzed.
 
-#### Audio content
+It's recommended that the audio file have a pulse rate of *16th notes* at *120 BPM* and be around *10 minutes long*. In other words, to produce the best results, use only a single repetitive pulse-like sound (eg snare drum) striking 16th notes.
 
-It's recommended that the audio file have a pulse rate of *16th notes* at *120 BPM* and be around *10 minutes long*. Using a single, consistent pulse-like sound (eg snare drum) striking 16th notes will produce the best results.
-
-If it's not clear what's meant by this, example audio files are included in the repository and can be found [here](https://github.com/arirusso/pulse-analysis/tree/master/spec/media)
+Example audio files are included in the repository and can be found [here](https://github.com/arirusso/pulse-analysis/tree/master/spec/media)
 
 ### Command Line
 
@@ -100,8 +94,6 @@ This will run the program and output something like
 ```
 
 ## Disclaimer
-
-Please remember to use results generated with this program responsibly.  
 
 With the subjective nature of the data at hand, this program is not meant to reflect poorly on any musicians, companies, hobbyists or anyone whose product has measurable timing.  After all, variation in timing may be desirable in musical context.
 
