@@ -22,7 +22,7 @@ Or if you're using Bundler, add this to your Gemfile
 
 Pulse-Analysis operates on a single input audio file at a time.
 
-#### File format
+#### Audio format
 
 The audio file must be in an uncompressed format such as *WAV* or *AIFF*.
 
@@ -30,13 +30,13 @@ In keeping with conventions established by the Litmus Test, audio input files mu
 
 Mono audio files are recommended.  If a stereo file is used, only the left channel will be analyzed.
 
-#### File content
+#### Audio content
 
 It's recommended that the audio file have a pulse rate of *16th notes* at *120 BPM* and be around *10 minutes long*.
 
 If it's not clear what's meant by this, sample audio files are included in the repository and can be found [here](https://github.com/arirusso/pulse-analysis/tree/master/spec/media)
 
-#### Command Line
+### Command Line
 
 ```sh
 pulse-analysis /path/to/a/sound/file.wav
@@ -65,7 +65,7 @@ This will run the program and output something like
 +------------------------+-------------------------+-------------+
 ```
 
-#### In Ruby
+### In Ruby
 
 ```ruby
 2.4.0 :002 > require "pulse-analysis"
