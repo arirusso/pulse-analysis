@@ -74,7 +74,7 @@ PulseAnalysis.report("/path/to/a/sound/file.wav")
 
  => {
    :file=>{
-     :path=>"../spec/media/roland_r5_audioout_120bpm_88k.wav"},
+     :path=>"/path/to/a/sound/file.wav"},
      :analysis=>[
        {
          :key=>:sample_rate,
@@ -100,7 +100,7 @@ PulseAnalysis.report("/path/to/a/sound/file.wav")
         },
         {
           :key=>:tempo,
-          :description=>"Tempo", 
+          :description=>"Tempo",
           :value=>{
             :unit=>"BPM",
             :value=>119.9371
