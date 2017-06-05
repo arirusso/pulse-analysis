@@ -21,6 +21,7 @@ module PulseAnalysis
     # @return [Boolean]
     def run
       populate_periods
+      validate
       true
     end
 
