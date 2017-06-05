@@ -78,7 +78,7 @@ PulseAnalysis.report("/path/to/a/sound/file.wav")
 
 ## Disclaimer
 
-Please use the results generated with this program responsibly.  
+Please remember to use results generated with this program responsibly.  
 
 With the subjective nature of the data at hand, this program is not meant to reflect poorly on any musicians, companies, hobbyists or anyone whose product has measurable timing.  After all, variation in timing may be desirable in some musical contexts.
 
