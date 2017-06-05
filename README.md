@@ -6,7 +6,7 @@ This would generally be used to measure the timing accuracy of drum machines, se
 
 ## Installation
 
-The package ([libsndfile](https://github.com/erikd/libsndfile)) must be installed first.  It is available in *Homebrew*, *APT*, *Yum* as well as many other package managers. For those who wish to compile themselves or need more information, follow the link above for more information
+The package [libsndfile](https://github.com/erikd/libsndfile) must be installed first.  It's available in *Homebrew*, *APT*, *Yum* as well as many other package managers. For those who wish to compile themselves or need more information, follow the link above for more information
 
 Install the gem itself using
 
@@ -30,14 +30,14 @@ Sample audio files are included in the repository and can be found [here](https:
 pulse-analysis /path/to/a/sound/file.wav
 ```
 
-This will output something like
+This will run the program and output something like
 
 ```sh
 [/] Reading file /path/to/a/sound/file.wav Done!
 [/] Running analysis Done!
 [\] Generating Report Done!
 +------------------------+-------------------------+-------------+
-|                             Report                             |
+|                         Pulse Analysis                         |
 +------------------------+-------------------------+-------------+
 | Item                   | Value                                 |
 +------------------------+-------------------------+-------------+
