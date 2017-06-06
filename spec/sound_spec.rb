@@ -4,7 +4,7 @@ describe PulseAnalysis::Sound do
 
   before(:each) do
     @mono_media = File.join("spec", "media", "ableton_live_exportaudio_120bpm_48k.wav")
-    @stereo_media = File.join("spec", "media", "expert-sleepers_disting_lfo_88k.wav")
+    @stereo_media = File.join("spec", "media", "expert-sleepers_disting_lfo_60bpm_88k.wav")
   end
 
   context ".load" do
