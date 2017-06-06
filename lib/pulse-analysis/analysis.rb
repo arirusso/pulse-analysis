@@ -178,9 +178,6 @@ module PulseAnalysis
       @data.each do |frame|
         if frame.abs < amplitude_threshold # if pulse is low
           is_low = true
-          periods[period_index] ||= 0
-          # count period length
-          periods[period_index] += 1
         else
           # pulse is high
           if is_low # last frame, the pulse was low
@@ -190,6 +187,9 @@ module PulseAnalysis
           end
           # if the pulse was already high, don't do anything
         end
+        # count period length
+        periods[period_index] ||= 0
+        periods[period_index] += 1
       end
       prune_periods(periods)
       @periods = periods
