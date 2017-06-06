@@ -19,11 +19,15 @@ module PulseAnalysis
     # @param [Integer] num_samples
     # @return [String]
     def num_samples_to_formatted_time(sample_rate, num_samples)
-      min, sec = *num_samples_to_seconds(sample_rate, num_samples).divmod(60)
+      total_seconds = num_samples_to_seconds(sample_rate, num_samples)
+      min, sec = *total_seconds.divmod(60)
       # convert seconds to int if it has no decimal value
-      sec = sec.round(2)
-      if !sec == 0 && sec.to_i % sec == 0
-        sec = sec.to_i
+      if sec != 0
+        if sec.to_i % sec == 0
+          sec = sec.to_i
+        else
+          sec = sec.round(2)
+        end
       end
       # only include minutes if there is a value
       result = min > 0 ? "#{min}m" : ""
