@@ -22,7 +22,7 @@ require "pulse-analysis/sound"
 
 module PulseAnalysis
 
-  VERSION = "0.0.1"
+  VERSION = "0.0.2"
 
   # Analyze the given audio file with the given options and generate a report
   # @param [::File, String] file_or_path File or path to audio file to run analysis on
