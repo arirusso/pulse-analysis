@@ -166,7 +166,7 @@ describe PulseAnalysis::Analysis do
     context "#largest_abberation" do
 
       before(:each) do
-        @analysis.instance_variable_set("@periods", [920, 920, 1200, 1150, 1050])
+        @analysis.instance_variable_set("@periods", [920, 920, 1200, 1150, 1050, 1050])
       end
 
       it "returns the largest sequential abberation" do
@@ -178,11 +178,11 @@ describe PulseAnalysis::Analysis do
     context "#average_abberation" do
 
       before(:each) do
-        @analysis.instance_variable_set("@periods", [1100, 1300, 1250, 1150])
+        @analysis.instance_variable_set("@periods", [1100, 1100, 1300, 1250, 1150, 1150])
       end
 
       it "returns the average sequential abberation" do
-        expect(@analysis.abberations).to(eq([200, 200, 50, 100, 100]))
+        expect(@analysis.abberations).to(eq([200, 50, 100]))
         expect(@analysis.average_abberation).to(eq(116.66666666666667))
       end
 
