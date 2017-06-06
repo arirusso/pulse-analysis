@@ -28,7 +28,6 @@ module PulseAnalysis
   # @param [::File, String] file_or_path File or path to audio file to run analysis on
   # @param [Hash] options
   # @option options [Float] :amplitude_threshold Pulses above this amplitude will be analyzed
-  # @option options [Integer] :length_threshold Pulse periods longer than this value will be analyzed
   # @return [PulseAnalysis::Report]
   def self.report(file_or_path, options = {})
     analysis = Analysis.new(file_or_path, options)

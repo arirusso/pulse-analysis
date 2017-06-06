@@ -10,10 +10,8 @@ module PulseAnalysis
     # @param [PulseAnalysis::Sound] sound Sound to analyze
     # @param [Hash] options
     # @option options [Float] :amplitude_threshold Pulses above this amplitude will be analyzed
-    # @option options [Integer] :length_threshold Pulse periods longer than this value will be analyzed
     def initialize(sound, options = {})
       @amplitude_threshold = options[:amplitude_threshold]
-      @length_threshold = options[:length_threshold]
       populate_sound(sound)
       @data = AudioData.new(@sound)
     end
@@ -159,18 +157,8 @@ module PulseAnalysis
       @data.max * 0.8
     end
 
-    # Threshold at which periods will be disregarded if they are shorter than
-    # Defaults to 80% of the average period size
-    # @param [Array<Integer>]
+    # Pulse detection will not detect if current period is shorter than this amount
     # @return [Integer]
-    def length_threshold(raw_periods)
-      if @length_threshold.nil?
-        average_period = raw_periods.inject(&:+).to_f / raw_periods.count
-        @length_threshold = (average_period * 0.8).to_i
-      end
-      @length_threshold
-    end
-
     def min_period_length
       @sound.sample_rate * 60 / 4 / MAX_BPM
     end
@@ -209,9 +197,6 @@ module PulseAnalysis
       # stopped in sync
       periods.shift
       periods.pop
-      # remove periods that are below length threshold
-      length = length_threshold(periods)
-      periods.reject! { |period| period < length }
       periods
     end
 

@@ -24,10 +24,6 @@ parser = OptionParser.new do |opts|
     options[:amplitude_threshold] = amplitude.to_f
   end
 
-  opts.on("-lLENGTH", "--length_threshold=LENGTH", "Length Threshold") do |length|
-    options[:length_threshold] = length.to_i
-  end
-
   opts.on("-q", "--quiet", "Quiet") do |quiet|
     options[:quiet] = quiet
   end
