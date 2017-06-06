@@ -147,7 +147,8 @@ module PulseAnalysis
         end
         i += 1
       end
-      abberations.reject!(&:zero?)
+      abberations.pop
+      abberations.shift
       abberations.map(&:abs)
     end
 
