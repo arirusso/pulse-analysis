@@ -77,7 +77,7 @@ describe PulseAnalysis::Conversion do
         end
 
         it "has correct result" do
-          expect(@result).to(eq("3m43.821s"))
+          expect(@result).to(eq("3m43.82s"))
         end
 
       end
