@@ -3,6 +3,7 @@ module PulseAnalysis
   class Analysis
 
     MINIMUM_PULSES = 10
+    MAX_BPM = 280
 
     attr_reader :abberations, :data, :periods, :sound
 
@@ -169,23 +170,28 @@ module PulseAnalysis
       @length_threshold
     end
 
+    def min_period_length
+      @sound.sample_rate * 60 / 4 / MAX_BPM
+    end
+
     # Calculate periods between pulses
     # @return [Array<Integer>]
     def populate_periods
-      is_low = false
+      is_high = true
       periods = []
       period_index = 0
       @data.each do |frame|
         if frame.abs < amplitude_threshold # if pulse is low
-          is_low = true
+          is_high = false
         else
           # pulse is high
-          if is_low # last frame, the pulse was low
-            is_low = false
-            # move to next period
-            period_index += 1
+          if !is_high # last frame, the pulse was low
+            # move to next period if length is past minimum
+            if periods[period_index] >= min_period_length
+              is_high = true
+              period_index += 1
+            end
           end
-          # if the pulse was already high, don't do anything
         end
         # count period length
         periods[period_index] ||= 0
