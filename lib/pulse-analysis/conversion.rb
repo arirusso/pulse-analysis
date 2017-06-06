@@ -21,7 +21,7 @@ module PulseAnalysis
     def num_samples_to_formatted_time(sample_rate, num_samples)
       min, sec = *num_samples_to_seconds(sample_rate, num_samples).divmod(60)
       # convert seconds to int if it has no decimal value
-      if sec.to_i % sec == 0
+      if !sec == 0 && sec.to_i % sec == 0
         sec = sec.to_i
       end
       # only include minutes if there is a value
