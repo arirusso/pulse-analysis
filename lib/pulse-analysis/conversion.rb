@@ -22,12 +22,10 @@ module PulseAnalysis
       total_seconds = num_samples_to_seconds(sample_rate, num_samples)
       min, sec = *total_seconds.divmod(60)
       # convert seconds to int if it has no decimal value
-      if sec != 0
-        if sec.to_i % sec == 0
-          sec = sec.to_i
-        else
-          sec = sec.round(2)
-        end
+      if sec % 1 == 0 # is there a decimal
+        sec = sec.to_i
+      else
+        sec = sec.round(2)
       end
       # only include minutes if there is a value
       result = min > 0 ? "#{min}m" : ""
