@@ -53,13 +53,13 @@ This will run the program and output something like
 | Item                   | Value                                 |
 +------------------------+-------------------------+-------------+
 | Sample rate            | 88200 (Hertz)                         |
-| Length                 | 4311 (Number of pulses) | 9m0s (Time) |
-| Tempo                  | 119.9371 (BPM)                        |
-| Longest period length  | 11289 (Samples)         | 127.99 (MS) |
-| Shortest period length | 10687 (Samples)         | 121.17 (MS) |
-| Average period length  | 11030.7838 (Samples)    | 125.07 (MS) |
-| Largest abberation     | 543 (Samples)           | 6.16 (MS)   |
-| Average abberation     | 155.5279 (Samples)      | 1.76 (MS)   |
+| Length                 | 4310 (Number of pulses) | 9m0s (Time) |
+| Tempo                  | 119.7546 (BPM)                        |
+| Longest period length  | 11326 (Samples)         | 128.41 (ms) |
+| Shortest period length | 10747 (Samples)         | 121.85 (ms) |
+| Average period length  | 11047.5949 (Samples)    | 125.26 (ms) |
+| Largest abberation     | 544 (Samples)           | 6.17 (ms)   |
+| Average abberation     | 160.2981 (Samples)      | 1.82 (ms)   |
 +------------------------+-------------------------+-------------+
 ```
 
